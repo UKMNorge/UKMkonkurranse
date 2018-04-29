@@ -7,7 +7,7 @@
 	  crossorigin="anonymous"></script>
 
 	<script>
-		$(document).ready(function() {
+		function erRegistrert() {
 			if( UKMMobil.har() ) {
 				$('#UKMmobil-missing').hide();
 				$('#UKMmobil-nummer').html( UKMMobil.get() );
@@ -22,6 +22,19 @@
 					);
 				}
 			}
+		}
+		
+		// REGISTRER NY BRUKER
+		$(document).on('submit', '#ukmmobil-registrer', function(e){
+			e.preventDefault();
+			UKMMobil.set( $('#registrer-mobilnummer').val() );
+			$('#submit-button').html('Lagrer...').prop('disabled',true);
+			erRegistrert();
+		});
+		
+		//
+		$(document).ready(function() {
+			erRegistrert();
 		});
 	</script>
 {% endblock %}
@@ -49,14 +62,16 @@
 				<div id="UKMmobil-missing">
 					<h1>Registrer mobilnummeret ditt</h1>
 
-					<div class="form-group">
-						<label>Ditt mobilnummer</label>
-						<input type="tel" class="form-control" name="mobil" id="korslaget-mobil" required />
-					</div>
-					
-					<div class="form-group">
-						<button class="btn btn-outline-primary" style="background-color: #fff;" type="button" id="korslaget-submit">Let me in!</button>
-					</div>
+					<form id="ukmmobil-registrer">
+						<div class="form-group">
+							<label>Ditt mobilnummer</label>
+							<input type="tel" class="form-control" name="mobil" pattern="[0-9]{8}" id="registrer-mobilnummer" title="Mobilnummeret må være 8 siffer uten mellomrom eller andre tegn." maxlength="8" required />
+						</div>
+						
+						<div class="form-group">
+							<button class="btn btn-outline-primary" style="background-color: #fff;" type="submit" id="submit-button">Let me in!</button>
+						</div>
+					</form>
 				</div>
 
 			</div>
