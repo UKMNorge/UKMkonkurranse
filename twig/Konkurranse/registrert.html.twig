@@ -1,0 +1,65 @@
+{% extends "Layout/_"~ (singleMode is defined and singleMode ? 'singleMode' : 'base' ) ~".html.twig"|UKMpath %}
+
+{% block javascripts %}
+	<script
+	  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+	  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+	  crossorigin="anonymous"></script>
+
+	<script>
+		$(document).ready(function() {
+			if( UKMMobil.har() ) {
+				$('#UKMmobil-missing').hide();
+				$('#UKMmobil-nummer').html( UKMMobil.get() );
+				$('#UKMmobil-registrert').show();
+				
+				for(var i = 0; i<50; i++) {
+					setTimeout(
+						function() {
+							$('#UKMDesign_content').effect('highlight', {duration: 800, color: '#f26d15'});
+						},
+						i * 100
+					);
+				}
+			}
+		});
+	</script>
+{% endblock %}
+
+{% block css %}
+	<style>
+		#UKMDesign_content {
+			margin-top: -1em !important;
+			margin-bottom: -1.51em !important;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div id="UKMmobil-registrert" style="display:none; min-height:80vh;">
+					<h1>Du er registrert og klar!</h1>
+					<p class="lead">Ditt mobilnummer: <span id="UKMmobil-nummer"></span></p>
+					<p>&nbsp;</p>
+					<a href="//ukm-festivalen.no/" class="btn btn-block btn-outline-primary">Ta meg bort herfra!</a>
+				</div>
+				
+				<div id="UKMmobil-missing">
+					<h1>Registrer mobilnummeret ditt</h1>
+
+					<div class="form-group">
+						<label>Ditt mobilnummer</label>
+						<input type="tel" class="form-control" name="mobil" id="korslaget-mobil" required />
+					</div>
+					
+					<div class="form-group">
+						<button class="btn btn-outline-primary" style="background-color: #fff;" type="button" id="korslaget-submit">Let me in!</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
