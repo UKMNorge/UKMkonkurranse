@@ -12,7 +12,11 @@
 				<a href="//grafikk.ukm.no/konkurranse/{{ konkurranse.getId() }}" class="btn btn-sm btn-mini btn-xs btn-primary" target="_blank">
 					grafikk
 				</a>
+				<a href="?page={{ GET('page') }}&delete=konkurranse&delete_id={{ konkurranse.getId() }}" class="btn btn-sm btn-xs btn-mini btn-danger" onclick="return confirm('Sikker på at du vil slette denne?');">
+					slett
+				</a>
 			</td>
+
 		</tr>
 	{% else %}
 		<tr>
@@ -22,4 +26,24 @@
 			</td>
 		</tr>
 	{% endfor %}
+	
+		<tr>
+			<td>
+				<form class="form-inline" action="?page={{ GET('page') }}&id=new" method="POST">
+					<div class="form-group">
+						<input type="text" class="form-control" name="new_question" id="new_question" placeholder="Legg til nytt spørsmål..." />
+					</div>
+					<div class="form-group">
+						<select class="form-control" name="new_type" id="new_type">
+							<option value="standard" selected="selected">Standard</option>
+							<option value="dynamisk">Dynamisk (egen-programmert GUI)</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-success form-control">Legg til</button>
+					</div>
+				</form>
+			</td>
+		</tr>
 </table>

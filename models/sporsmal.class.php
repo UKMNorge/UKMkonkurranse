@@ -48,19 +48,19 @@ class Sporsmal extends ORM {
 	public function getAlternatives() {
 		if( null == $this->alternatives ) {
 			require_once(UKMKONKURRANSE_PATH.'models/alternative.collection.php');
-			$this->alternatives = new AlternativeColl( $this->getId() );
+			$this->alternatives = new AlternativeColl( $this->getId(), $this->getAnswerType() );
 		}
 		return $this->alternatives;
 	}
-	
-	
-	public static function create( $name, $type, $answerType='tekst' ) {
-		$object = self::_create( [
-			'name' => $sporsmal,
-			'type' => $type,
-			'answer_type' => $answerType,
+
+	public function update() {
+		self::_update( 
+			[
+				'name' => $this->getName(),
+				'type' => $this->getType(),
+				'answer_type' => $this->getAnswerType(),
 			]
 		);
-		return $object;
 	}
+
 }

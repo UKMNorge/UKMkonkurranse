@@ -1,4 +1,60 @@
-<h1>{{ sporsmal.getName() }}</h1>
+<h1>
+	{{ sporsmal.getName() }}
+	<small>
+		<a href="#" id="editKonkurranse" class="btn btn-primary btn-mini btn-sm btn-xs">
+			rediger
+		</a>
+	</small>
+</h1>
+
+<script>
+	jQuery(document).on('click', '#editKonkurranse', function(){
+		if( jQuery('#formKonkurranse').is(':hidden') ) {
+			jQuery(this).html('avbryt');
+		} else {
+			jQuery(this).html('rediger');
+		}
+		jQuery('#formKonkurranse').slideToggle();
+	});
+</script>
+
+<div id="formKonkurranse" style="display: none">
+	<div class="col-12 col-xs-12">
+		<form class="form" action="?page={{ GET('page') }}&action={{ GET('action') }}&id={{ GET('id') }}" method="POST">
+			
+			<div class="form-group">
+				<label for="name">Spørsmål</label>
+				<input class="form-control" type="text" name="name" id="name" value="{{ sporsmal.getName() }}" />
+			</div>
+			
+			<div class="form-group">
+				<label for="type">Type spørsmål</label>
+				<select name="type" class="form-control">
+					<option value="standard" {{ sporsmal.getType() == 'standard' ? 'selected="selected"' }}>Standard</option>
+					<option value="dynamisk" {{ sporsmal.getType() == 'dynamisk' ? 'selected="selected"' }}>Dynamisk (egen-programmert GUI)</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="svar_type">Type svar deltakerne kan oppgi</label>
+				<select name="svar_type" id="svar_type" class="form-control">
+					<optgroup name="Standard-spørsmål">
+						<option value="tekst" {{ sporsmal.getAnswerType() == 'tekst' ? 'selected="selected"' }}>Tekst</option>
+					</optgroup>
+					<optgroup label="Dynamiske spørsmål">
+						<option value="fylke" {{ sporsmal.getAnswerType() == 'fylke' ? 'selected="selected"' }}>Et av landets fylker</option>
+						<option value="innslag" {{ sporsmal.getAnswerType() == 'innslag' ? 'selected="selected"' }}>Et innslag</option>
+					</optgroup>
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<button type="submit" class="btn btn-success">Lagre</button>
+			</div>
+		</form>
+	</div>
+	<div class="clearfix"></div>
+</div>
 
 {% if sporsmal.getType() == 'standard' or sporsmal.getAnswerType() == 'fylke' %}
 	{% if sporsmal.getAnswerType() == 'fylke' %}
