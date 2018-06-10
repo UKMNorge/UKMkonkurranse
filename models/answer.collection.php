@@ -43,4 +43,24 @@ class AnswerColl extends Coll {
 		return new $object_class( $row );
 	}
 
+	public static function getAllUniqueByQuestion( $question_id ) {
+		$child = get_called_class();
+
+		$sql = new SQL(
+			"SELECT * FROM `". self::TABLE_NAME ."`
+			WHERE `sporsmal_id` = '#question_id'
+			GROUP BY `svar`",
+			[
+				'question_id' => $question_id,
+			]
+		);
+		$res = $sql->run();
+		
+		$models = [];
+		while( $row = mysql_fetch_assoc( $res ) ) {
+			$object_class = str_replace('Coll', '', $child);
+			$models[] = new $object_class( $row );
+		}
+		return $models;
+	}
 }

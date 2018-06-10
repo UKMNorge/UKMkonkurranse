@@ -25,8 +25,28 @@ switch( $_POST['konkurranse'] ) {
 		}
 		// DYNAMISKE SPØRSMÅL (med custom-code)
 		else {
-			if( $_POST['sporsmal'] == 'korslaget-fylke' ) {
-				$SQLins->add('sporsmal_id', 1);
+			switch( $_POST['sporsmal'] ) {
+				case 'korslaget-fylke':
+					$SQLins->add('sporsmal_id', 1);
+					break;
+				case 'onskereprise-12791': 
+					$SQLins->add('sporsmal_id', 2);
+					break;
+				case 'onskereprise-12792': 
+					$SQLins->add('sporsmal_id', 7);
+					break;
+				case 'onskereprise-12793': 
+					$SQLins->add('sporsmal_id', 8);
+					break;
+				case 'onskereprise-12794': 
+					$SQLins->add('sporsmal_id', 9);
+					break;
+				case 'onskereprise-12795': 
+					$SQLins->add('sporsmal_id', 10);
+					break;
+				case 'onskereprise-12796': 
+					$SQLins->add('sporsmal_id', 11);
+					break;
 			}
 			$SQLins->add('sporsmal-key', $_POST['sporsmal']);
 			$SQLins->add('svar', $_POST['svar']);

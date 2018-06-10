@@ -4,6 +4,7 @@
 require_once('UKM/_orm.instanceCollection.php');
 require_once(UKMKONKURRANSE_PATH.'models/alternative.class.php');
 require_once(UKMKONKURRANSE_PATH.'models/alternative_fylke.class.php');
+require_once(UKMKONKURRANSE_PATH.'models/alternative_innslag.class.php');
 
 class AlternativeColl extends InstanceColl {
 	const TABLE_NAME = Alternative::TABLE_NAME;
@@ -27,17 +28,28 @@ class AlternativeColl extends InstanceColl {
 	}
 	
 	public function getAllByName() {
-		if( $this->getType() == 'fylke' ) {
-			require_once('UKM/fylker.class.php');
+		switch( $this->getType() ) {
+			case 'fylke':
+				require_once('UKM/fylker.class.php');
+				
+				foreach( fylker::getAll() as $fylke ) {
+					$this->models[] = new AlternativeFylke( $this->getParentId(), $fylke);
+				}
+				return $this->models;
 			
-			foreach( fylker::getAll() as $fylke ) {
-				$this->models[] = new AlternativeFylke( $this->getParentId(), $fylke);
-			}
-			return $this->models;
+			case 'innslag':
+				require_once(UKMKONKURRANSE_PATH.'models/answer.collection.php');
+				$answers = AnswerColl::getAllUniqueByQuestion( $this->getParentId() );
+				
+				foreach( $answers as $answer ) {
+					$this->models[] = new AlternativeInnslag( $this->getParentId(), $answer->getAnswerText() );
+				}
+
+				return $this->models;
+			
+			default:
+				return parent::getAllByName();
 		}
-		
-		
-		return parent::getAllByName();
 	}
 	
 	public function create( $name ) {

@@ -71,6 +71,11 @@ class Answer extends ORM {
 		return $this->getAnswerText();
 	}
 	
+	// Used by parent collection
+	public function getName() {
+		return $this->getAnswer();
+	}
+	
 	public function __toString() {
 		return $this->getAnswer();
 	}

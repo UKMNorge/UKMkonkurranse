@@ -85,7 +85,7 @@ class UKMkonkurranse extends UKMmodul {
 			'administrator', 
 			'konkurranse',
 			['UKMkonkurranse','admin'],
-			'/wp-content/plugins/UKMRFIDwp/img/id-menu.png',
+			'//ico.ukm.no/prize-menu.png',
 			20
 		);
 		UKM_add_scripts_and_styles(

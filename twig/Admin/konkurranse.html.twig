@@ -56,10 +56,13 @@
 	<div class="clearfix"></div>
 </div>
 
-{% if sporsmal.getType() == 'standard' or sporsmal.getAnswerType() == 'fylke' %}
+{% if sporsmal.getType() == 'standard' or sporsmal.getAnswerType() == 'fylke' or sporsmal.getAnswerType == 'innslag' %}
 	{% if sporsmal.getAnswerType() == 'fylke' %}
 		<p class="lead">Brukerne kan velge alle fylkene som svar-alternativer</p>
+	{% elseif sporsmal.getAnswerType() == 'innslag' %}
+		<p class="lead">Svar-alternativene er et utvalg av innslag. Hvilke innslag som er mulig å svare avgjøres av konkurranse-siden.</p>
 	{% endif %}
+	
 	<table class="table table-striped">
 		{% for alternative in sporsmal.getAlternatives().getAllByName() %}
 			<tr>
@@ -80,6 +83,8 @@
 				<td>Det er ikke lagt til noen alternativer enda.</td>
 			</tr>
 		{% endfor %}
+		
+		{% if sporsmal.getType() == 'standard' %}
 			<tr>
 				<td>
 					<form class="form-inline" action="?page={{ GET('page') }}&action={{ GET('action') }}&id={{ GET('id') }}" method="POST">					
@@ -92,14 +97,10 @@
 					</form>
 				</td>
 			</tr>
+		{% endif %}
 	</table>
 {% else %}
-		
-	{% if sporsmal.getAnswerType() == 'innslag' %}
-		<p class="lead">Svar-alternativene er et utvalg av innslag. Hvilke innslag som er mulig å svare avgjøres av konkurranse-siden.</p>
-	{% else %}
-		<div class="alert alert-danger">
-			Oppgitt svar-type <code>{{ sporsmal.getAnswerType }}</code> er ukjent for systemet!
-		</div>
-	{% endif %}
+	<div class="alert alert-danger">
+		Oppgitt svar-type <code>{{ sporsmal.getAnswerType }}</code> er ukjent for systemet!
+	</div>
 {% endif %}
