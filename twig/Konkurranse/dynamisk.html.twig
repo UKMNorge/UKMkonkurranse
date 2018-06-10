@@ -1,0 +1,20 @@
+{% extends "Layout/_"~ (singleMode is defined and singleMode ? 'singleMode' : 'base' ) ~".html.twig"|UKMpath %}
+
+{% block css %}
+	<style>
+		#UKMDesign_content {
+			margin-top: -1em !important;
+			margin-bottom: -1.51em !important;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Beklager, kan ikke vise denne konkurransen her</h1>
+			</div>
+		</div>
+	</div>
+{% endblock %}

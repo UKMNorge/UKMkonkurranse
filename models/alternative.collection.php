@@ -10,6 +10,19 @@ class AlternativeColl extends InstanceColl {
 	
 	public $models = null;
 	public $sporsmalId = null;
+	public $type = null;
+
+	public function __construct( $id, $type ) {
+		parent::__construct( $id );
+	}
+	
+	public function setType( $type ) {
+		$this->type = $type;
+		return $this;
+	}
+	public function getType() {
+		return $this->type;
+	}
 	
 	public function create( $name ) {
 		$object = $this->_create( [

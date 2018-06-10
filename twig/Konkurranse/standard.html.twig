@@ -1,0 +1,71 @@
+{% extends "Layout/_"~ (singleMode is defined and singleMode ? 'singleMode' : 'base' ) ~".html.twig"|UKMpath %}
+
+{% block css %}
+	<style>
+		#UKMDesign_content {
+			margin-top: -1em !important;
+			margin-bottom: -1.51em !important;
+		}
+	</style>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		$(document).ready(function() {
+			UKMKonkurranse.on('{{sporsmal.getId()}}:svar', function( response ) {
+				$('#sporsmal').hide();
+				$('#svar').fadeIn(200);
+			});
+			
+			UKMKonkurranse.on('{{sporsmal.getId()}}:get', function( response ) {
+				if( response.harSvart != null && response.harSvart !== undefined && response.harSvart == true ) {
+					$('#sporsmal').hide();
+					$('#svar').fadeIn(200);
+				}
+			});
+	
+		});
+		
+		$(document).on('click', '.konkurranseAlternativ', function( e ) {
+			$( this ).html('Lagrer...');
+			UKMKonkurranse.svar($(this).attr('data-sporsmal'), $(this).val());
+		});
+		
+	</script>
+	{{ parent() }}
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>{{ sporsmal.getName() }}</h1>
+				
+				{% if UKMMobil is not defined %}
+					<div>
+						<div class="form-group" id="mobilnummer">
+							<label>Ditt mobilnummer</label>
+							<input type="tel" class="form-control" name="mobil" pattern="[0-9]{8}" id="mobilnummer_input" title="Mobilnummeret må være 8 siffer uten mellomrom eller andre tegn." maxlength="8" required />
+						</div>
+					</div>
+				{% endif %}
+
+				
+				<p class="lead" style="{{ answer is not defined or answer == false ? 'display:none' }}" id="svar">Takk for at du svarte {{ answer.getAnswer() }}</p>
+				<div id="sporsmal" style="{{ answer is defined and answer != false ? 'display:none' }}">
+					{% for alternativ in sporsmal.getAlternatives().getAllByName() %}
+						<p>
+							<button type="button" name="alternative" value="{{ alternativ.getId() }}" class="btn btn-primary btn-block konkurranseAlternativ" data-sporsmal="{{sporsmal.getId()}}">{{ alternativ.getName() }}</button>
+						</p>
+					{% else %}
+						<p>Beklager, fant ingen svar-alternativer du kan velge.</p>
+					{% endfor %}
+				</div>
+				
+				{% if UKMMobil is defined %}
+					<p class="lead" id="mobilnummer_ditt">Ditt mobilnummer: {{ UKMMobil }}</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

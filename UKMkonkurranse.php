@@ -18,6 +18,12 @@ if( get_option('site_type') == 'land' ) {
 	add_action('UKM_admin_menu', ['UKMkonkurranse','meny']);
 }
 
+
+
+add_action( 'wp_ajax_nopriv_UKMkonkurranse', ['UKMkonkurranse','ajax'] );
+add_action( 'wp_ajax_UKMkonkurranse', ['UKMkonkurranse','ajax'] );
+
+
 function UKMkonkurranseTemplateFilter( $template ) {
 	global $post;
 	
@@ -32,6 +38,16 @@ function UKMkonkurranseTemplateFilter( $template ) {
 require_once(UKMKONKURRANSE_PATH . '../UKMvideresending/class/UKMModul.class.php');
 
 class UKMkonkurranse extends UKMmodul {
+	public static function ajax() {
+		$response = [
+			'action' => $_POST['ajaxaction'],
+			'trigger' => $_POST['trigger'],
+			'success' => false,
+		];
+		require_once( UKMKONKURRANSE_PATH . 'ajax.php');
+		echo json_encode( $response );
+		wp_die();
+	}
 	/**
 	 * Initier Videresending-objektet
 	 *
