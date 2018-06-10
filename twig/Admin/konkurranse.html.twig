@@ -1,0 +1,49 @@
+<h1>{{ sporsmal.getName() }}</h1>
+
+{% if sporsmal.getType() == 'standard' or sporsmal.getAnswerType() == 'fylke' %}
+	{% if sporsmal.getAnswerType() == 'fylke' %}
+		<p class="lead">Brukerne kan velge alle fylkene som svar-alternativer</p>
+	{% endif %}
+	<table class="table table-striped">
+		{% for alternative in sporsmal.getAlternatives().getAllByName() %}
+			<tr>
+				<th>
+					{{ alternative.getName() }}
+				</th>
+				<td>
+					{{ alternative.getCount() }}
+				</td>
+				<td>
+					<a href="?page={{ GET('page') }}&action={{GET('action')}}&id={{GET('id')}}&delete=alternative&delete_id={{ alternative.getId() }}" class="btn btn-sm btn-xs btn-mini btn-danger">
+						Slett
+					</a>
+				</td>
+			</tr>
+		{% else %}
+			<tr>
+				<td>Det er ikke lagt til noen alternativer enda.</td>
+			</tr>
+		{% endfor %}
+			<tr>
+				<td>
+					<form class="form-inline" action="?page={{ GET('page') }}&action={{ GET('action') }}&id={{ GET('id') }}" method="POST">					
+						<div class="form-group">
+							<input type="text" class="form-control" name="new_alternative" id="new_alternative" placeholder="Legg til nytt alternativ..." />
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success form-control">Legg til</button>
+						</div>
+					</form>
+				</td>
+			</tr>
+	</table>
+{% else %}
+		
+	{% if sporsmal.getAnswerType() == 'innslag' %}
+		<p class="lead">Svar-alternativene er et utvalg av innslag. Hvilke innslag som er mulig å svare avgjøres av konkurranse-siden.</p>
+	{% else %}
+		<div class="alert alert-danger">
+			Oppgitt svar-type <code>{{ sporsmal.getAnswerType }}</code> er ukjent for systemet!
+		</div>
+	{% endif %}
+{% endif %}

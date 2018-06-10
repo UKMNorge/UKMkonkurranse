@@ -1,0 +1,25 @@
+<h1>Konkurranse-oversikt</h1>
+
+<table class="table table-striped">
+	{% for konkurranse in sporsmal %}
+		<tr>
+			<td>
+				<a href="?page={{ GET('page') }}&action=konkurranse&id={{ konkurranse.getId() }}">
+					{{ konkurranse.getName() }}
+				</a>
+			</td>
+			<td>
+				<a href="//grafikk.ukm.no/konkurranse/{{ konkurranse.getId() }}" class="btn btn-sm btn-mini btn-xs btn-primary" target="_blank">
+					grafikk
+				</a>
+			</td>
+		</tr>
+	{% else %}
+		<tr>
+			<td>
+				Ingen konkurranser er lagt til i systemet.
+				<a href="?page={{ GET('page') }}&action=konkurranse&id=new">Vil du legge til en?</a>
+			</td>
+		</tr>
+	{% endfor %}
+</table>

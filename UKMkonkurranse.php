@@ -14,6 +14,10 @@ define('UKMKONKURRANSE_URL', rtrim( plugin_dir_url( __FILE__), '/').'/');
 
 add_filter( 'template_include', 'UKMkonkurranseTemplateFilter' );
 
+if( get_option('site_type') == 'land' ) {
+	add_action('UKM_admin_menu', ['UKMkonkurranse','meny']);
+}
+
 function UKMkonkurranseTemplateFilter( $template ) {
 	global $post;
 	
@@ -23,4 +27,61 @@ function UKMkonkurranseTemplateFilter( $template ) {
 	}
 
 	return $template;
+}
+
+require_once(UKMKONKURRANSE_PATH . '../UKMvideresending/class/UKMModul.class.php');
+
+class UKMkonkurranse extends UKMmodul {
+	/**
+	 * Initier Videresending-objektet
+	 *
+	**/
+	public static function init() {
+		self::setAction('home');
+		parent::init(null);
+	}
+	
+	/**
+	 * Generer admin-GUI
+	 *
+	 * @return void, echo GUI.
+	**/
+	public static function admin() {
+		self::init();
+		## ACTION CONTROLLER
+		require_once('controller/'. self::getAction() .'.controller.php');
+		
+		## RENDER
+		echo TWIG( 'Admin/'. strtolower(self::getAction()) .'.html.twig', self::getViewData() , dirname(__FILE__), true);
+		echo TWIGjs( dirname(__FILE__) );
+		return;
+	}
+
+	/**
+	 * Registrer menyer
+	 *
+	**/
+	public static function meny() {
+		UKM_add_menu_page(
+			'festivalen',
+			'Konkurranse', 
+			'Konkurranse',
+			'administrator', 
+			'konkurranse',
+			['UKMkonkurranse','admin'],
+			'/wp-content/plugins/UKMRFIDwp/img/id-menu.png',
+			20
+		);
+		UKM_add_scripts_and_styles(
+			['UKMkonkurranse','admin'],	# Page-hook
+			['UKMkonkurranse', 'scripts_and_styles']	# Script-funksjon
+		);
+	}
+	
+	public static function scripts_and_styles() {
+		wp_enqueue_script('WPbootstrap3_js');
+		wp_enqueue_style('WPbootstrap3_css');
+		wp_enqueue_script('TwigJS');
+	}
+
 }
