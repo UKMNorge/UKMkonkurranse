@@ -3,7 +3,8 @@
 
 require_once('UKM/_orm.instanceCollection.php');
 require_once(UKMKONKURRANSE_PATH.'models/alternative.class.php');
-	
+require_once(UKMKONKURRANSE_PATH.'models/alternative_fylke.class.php');
+
 class AlternativeColl extends InstanceColl {
 	const TABLE_NAME = Alternative::TABLE_NAME;
 	const PARENT_FIELD = Alternative::PARENT_FIELD;
@@ -14,6 +15,7 @@ class AlternativeColl extends InstanceColl {
 
 	public function __construct( $id, $type ) {
 		parent::__construct( $id );
+		$this->setType( $type );
 	}
 	
 	public function setType( $type ) {
@@ -22,6 +24,20 @@ class AlternativeColl extends InstanceColl {
 	}
 	public function getType() {
 		return $this->type;
+	}
+	
+	public function getAllByName() {
+		if( $this->getType() == 'fylke' ) {
+			require_once('UKM/fylker.class.php');
+			
+			foreach( fylker::getAll() as $fylke ) {
+				$this->models[] = new AlternativeFylke( $this->getParentId(), $fylke);
+			}
+			return $this->models;
+		}
+		
+		
+		return parent::getAllByName();
 	}
 	
 	public function create( $name ) {
