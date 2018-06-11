@@ -1,0 +1,62 @@
+<h1>Geocache-oversikt</h1>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Navn på cache</th>
+			<th>Besøk</th>
+			<th>Type</th>
+			<th>URL</th>
+			<th></th>
+		</tr>
+	</thead>
+	{% for geocache in geocacher %}
+		<tr>
+			<td>
+				{{ geocache.getName() }}
+			</td>
+			<td>
+				{{ geocache.getCount() }}
+			</td>
+			<td>
+				{{ geocache.getType() }}
+			</td>
+			<td>
+				{{ geocache.getUrl() }}
+			</td>
+			</td>
+			<td>
+				<a href="?page={{ GET('page') }}&delete=geocache&delete_id={{ geocache.getId() }}" class="btn btn-sm btn-xs btn-mini btn-danger" onclick="return confirm('Sikker på at du vil slette denne?');">
+					slett
+				</a>
+			</td>
+
+		</tr>
+	{% else %}
+		<tr>
+			<td>
+				Ingen geocacher er lagt til i systemet.
+				<a href="?page={{ GET('page') }}&action=geocache&id=new">Vil du legge til en?</a>
+			</td>
+		</tr>
+	{% endfor %}
+	
+		<tr>
+			<td colspan="4">
+				<form class="form-inline" action="?page={{ GET('page') }}&id=new" method="POST">
+					<div class="form-group">
+						<input type="text" class="form-control" name="new_geocache" id="new_geocache" placeholder="Legg til ny geocache" />
+					</div>
+					<div class="form-group">
+						<select class="form-control" name="new_geocache_type" id="new_geocache_type">
+							<option value="vanlig" selected="selected">Synlig</option>
+							<option value="mystery">Mysterie (navnet er skjult til den er låst opp)</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success form-control">Legg til</button>
+					</div>
+				</form>
+			</td>
+		</tr>
+</table>
