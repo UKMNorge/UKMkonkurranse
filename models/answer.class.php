@@ -2,7 +2,8 @@
 
 
 require_once('UKM/_orm.class.php');
-	
+require_once(UKMKONKURRANSE_PATH.'models/sporsmal.collection.php');
+
 class Answer extends ORM {
 	const TABLE_NAME = 'konkurranse_svar';
 	
@@ -23,7 +24,7 @@ class Answer extends ORM {
 		$this->sporsmalId = $id;
 		return $this;
 	}
-	public function getSporsmalID() {
+	public function getSporsmalId() {
 		return $this->sporsmalId;
 	}
 	public function setAlternativeId( $id ) {
@@ -49,23 +50,41 @@ class Answer extends ORM {
 	public function getMobil() {
 		return $this->mobil;
 	}
+	public function getSporsmal() {
+		if( null == $this->sporsmal ) {
+			$this->sporsmal = SporsmalColl::getById( $this->getSporsmalId() );
+		}
+		return $this->sporsmal;
+	}
 	
 	public function getAlternative() {
 		if( $this->alternative == null ) {
-			require_once(UKMKONKURRANSE_PATH.'models/sporsmal.collection.php');
-			$sporsmal = SporsmalColl::getById( $this->getSporsmalID() );
+			require_once(UKMKONKURRANSE_PATH.'models/alternative.collection.php');
+			$sporsmal = SporsmalColl::getById( $this->getSporsmalId() );
 			
-			if( $sporsmal->getType() == 'dynamisk' && $sporsmal->getAnswerType() == 'fylke' ) {
-				require_once('UKM/fylker.class.php');
-				return fylker::getByKey( $this->getAnswerText() );
+			if( $this->getSporsmal()->getAnswerType() == 'fylke' ) {
+				$this->alternative = new AlternativeFylke(
+					$this->getSporsmal()->getId(),
+					fylker::getByLink( $this->getAnswerText() )
+				);
 			}
-			$this->alternative = $sporsmal->getAlternatives()->getById( $this->getAlternativeId() );
+			elseif( $this->getSporsmal()->getAnswerType() == 'innslag' ) {
+				$this->alternative = new AlternativeInnslag(
+					$this->getSporsmal()->getId(),
+					new innslag_v2( $this->getAnswerText() )
+				);
+			}
+			else {
+				$this->alternative = $sporsmal->getAlternatives()->getById( $this->getAlternativeId() );
+			}
 		}
 		return $this->alternative;
 	}
 
 	public function getAnswer() {
-		if( $this->getAlternativeId() != null ) {
+		require_once(UKMKONKURRANSE_PATH.'models/alternative.collection.php');
+
+		if( $this->getAlternative() != null ) {
 			return $this->getAlternative()->getName();
 		}
 		return $this->getAnswerText();

@@ -73,9 +73,11 @@
 					{{ alternative.getCount() }}
 				</td>
 				<td>
-					<a href="?page={{ GET('page') }}&action={{GET('action')}}&id={{GET('id')}}&delete=alternative&delete_id={{ alternative.getId() }}" class="btn btn-sm btn-xs btn-mini btn-danger">
-						Slett
-					</a>
+					{% if sporsmal.getType() == 'standard' %}
+						<a href="?page={{ GET('page') }}&action={{GET('action')}}&id={{GET('id')}}&delete=alternative&delete_id={{ alternative.getId() }}" class="btn btn-sm btn-xs btn-mini btn-danger">
+							Slett
+						</a>
+					{% endif %}
 				</td>
 			</tr>
 		{% else %}

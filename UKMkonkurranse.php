@@ -74,6 +74,23 @@ class UKMkonkurranse extends UKMmodul {
 	}
 
 	/**
+	 * Generer admin-GUI
+	 *
+	 * @return void, echo GUI.
+	**/
+	public static function adminGeocache() {
+		self::init();
+		## ACTION CONTROLLER
+		require_once('controller/geocache/'. self::getAction() .'.controller.php');
+		
+		## RENDER
+		echo TWIG( 'Admin/Geocache/'. strtolower(self::getAction()) .'.html.twig', self::getViewData() , dirname(__FILE__), true);
+		echo TWIGjs( dirname(__FILE__) );
+		return;
+	}
+
+
+	/**
 	 * Registrer menyer
 	 *
 	**/
@@ -92,6 +109,21 @@ class UKMkonkurranse extends UKMmodul {
 			['UKMkonkurranse','admin'],	# Page-hook
 			['UKMkonkurranse', 'scripts_and_styles']	# Script-funksjon
 		);
+		
+		// Legg geocache som en submeny.
+		UKM_add_submenu_page(
+			'konkurranse',
+			'Geocache',
+			'Geocache',
+			'administrator',
+			'geocache',
+			['UKMkonkurranse', 'adminGeocache']
+		);
+		UKM_add_scripts_and_styles(
+			['UKMkonkurranse','adminGeocache'],	# Page-hook
+			['UKMkonkurranse', 'scripts_and_styles']	# Script-funksjon
+		);
+
 	}
 	
 	public static function scripts_and_styles() {
