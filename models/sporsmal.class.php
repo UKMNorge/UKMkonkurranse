@@ -10,6 +10,7 @@ class Sporsmal extends ORM {
 	var $answerType = null;
 	var $name = null;
 	var $alternatives = null;
+	var $answers = null;
 	
 	public function populate( $row ) {
 		$this->setType( $row['type'] );
@@ -51,6 +52,14 @@ class Sporsmal extends ORM {
 			$this->alternatives = new AlternativeColl( $this->getId(), $this->getAnswerType() );
 		}
 		return $this->alternatives;
+	}
+
+	public function getAnswers() {
+		if( null == $this->answers ) {
+			require_once(UKMKONKURRANSE_PATH.'models/answer.collection.php');
+			$this->answers = new Answers( $this->getId() );
+		}
+		return $this->answers;
 	}
 
 	public function update() {

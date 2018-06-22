@@ -11,6 +11,7 @@ class Alternative extends ORM {
 	var $sporsmalId = null;
 	var $name = null;
 	var $count = null;
+	var $answers = null;
 	
 	public static function getTableName() {
 		return self::TABLE_NAME;
@@ -57,6 +58,30 @@ class Alternative extends ORM {
 			$this->count = $sql->run('field','count');
 		}
 		return $this->count;
+	}
+	
+	public function getAnswers() {
+		if( null == $this->answers ) {
+			require_once(UKMKONKURRANSE_PATH .'models/answer.collection.php');
+			$sql = new SQL("
+				SELECT *
+				FROM `#table`
+				WHERE `sporsmal_id` = '#sporsmal_id'
+				AND `alternativ_id` = '#alternativ_id'",
+				[ 
+					'table' => Answer::TABLE_NAME,
+					'sporsmal_id' => $this->getSporsmalID(),
+					'alternativ_id' => $this->getId(),
+				]
+			);
+			$answers = $sql->run();
+			
+			$this->answers = [];
+			while( $row = mysql_fetch_assoc( $answers ) ) {
+				$this->answers[] = new Answer( $row );
+			}
+			return $this->answers;
+		}
 	}
 
 	public function __toString() {

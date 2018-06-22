@@ -1,0 +1,33 @@
+<h1>
+	{{ sporsmal.getName() }}
+</h1>
+
+<p class="lead">
+	Disse svarene har kommet inn.
+</p>
+
+{% if sporsmal.getType() == 'standard' %}
+	{% for alternative in sporsmal.getAlternatives().getAllByName() %}
+		<h2>{{ alternative.getName() }}</h2>
+		<table class="table table-striped">
+			{% for answer in alternative.getAnswers() %}
+				<tr>
+					<th>
+						{{ answer.getMobil() }}
+					</th>
+					<td>
+						{{ answer.getAnswerText() }}
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td>Det er ikke lagt til noen svar enda.</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endfor %}
+{% else %}
+	<p>
+		Kan kun vise hvem som har svart for standard-spørsmål (altså ikke fylker e.l.)
+	</p>
+{% endif %}
