@@ -3,7 +3,7 @@
 require_once(UKMKONKURRANSE_PATH. 'models/geocache.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-	$sporsmal = GeocacheColl::create( utf8_encode($_POST['new_geocache']), $_POST['new_geocache_type'] );
+	$sporsmal = GeocacheColl::create( $_POST['new_geocache'], $_POST['new_geocache_type'] );
 }
 
 if( isset($_GET['delete'] ) && $_GET['delete'] == 'geocache' && isset( $_GET['delete_id'] ) && is_numeric( $_GET['delete_id'] ) ) {

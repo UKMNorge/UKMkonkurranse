@@ -3,7 +3,7 @@
 require_once(UKMKONKURRANSE_PATH. 'models/sporsmal.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-	$sporsmal = SporsmalColl::create( utf8_encode($_POST['new_question']), utf8_encode($_POST['new_type']) );
+	$sporsmal = SporsmalColl::create( $_POST['new_question'], $_POST['new_type'] );
 }
 
 if( isset($_GET['delete'] ) && $_GET['delete'] == 'konkurranse' && isset( $_GET['delete_id'] ) && is_numeric( $_GET['delete_id'] ) ) {
