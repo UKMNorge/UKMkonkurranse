@@ -77,7 +77,7 @@ class Alternative extends ORM {
 			$answers = $sql->run();
 			
 			$this->answers = [];
-			while( $row = mysql_fetch_assoc( $answers ) ) {
+			while( $row = SQL::fetch( $answers ) ) {
 				$this->answers[] = new Answer( $row );
 			}
 			return $this->answers;

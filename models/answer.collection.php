@@ -81,7 +81,7 @@ class AnswerColl extends Coll {
 		$res = $sql->run();
 		
 		$models = [];
-		while( $row = mysql_fetch_assoc( $res ) ) {
+		while( $row = SQL::fetch( $res ) ) {
 			$object_class = str_replace('Coll', '', $child);
 			$models[] = new $object_class( $row );
 		}
