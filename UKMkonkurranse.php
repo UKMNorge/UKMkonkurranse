@@ -52,7 +52,7 @@ class UKMkonkurranse extends UKMmodul {
 	 * Initier Videresending-objektet
 	 *
 	**/
-	public static function init() {
+	public static function init( $pl_id=null ) {
 		self::setAction('home');
 		parent::init(null);
 	}
