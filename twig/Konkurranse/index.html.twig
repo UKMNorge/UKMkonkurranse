@@ -1,37 +1,5 @@
 {% extends "Layout/_"~ (singleMode is defined and singleMode ? 'singleMode' : 'base' ) ~".html.twig"|UKMpath %}
 
-{% block javascripts %}
-	<script>
-		{#
-		$(document).ready(function() {
-		
-			// REGISTRER ETT SVAR
-			UKMKonkurranse.on('KONKURRANSENAVN:svar', function( response ) {
-				// GJØR DET SOM SKAL GJØRES NÅR DU HAR SVART
-			});
-			
-			// HENT UT ET TIDLIGERE SVAR (FRA DENNE BRUKEREN)
-			UKMKonkurranse.on('KONKURRANSENAVN:get', function( response ) {
-				if( response.harSvart != null && response.harSvart !== undefined && response.harSvart == true ) {
-					// GJØR DET SOM SKAL GJØRES NÅR DU HAR FÅTT BRUKERENS SVAR TILBAKE
-				}
-			});
-
-			// HVIS BRUKEREN HAR REGISTRERT UKMMOBIL, HENT NOE FRA KONKURRANSE-OBJEKTET
-			if( UKMMobil.har() ) {
-				UKMKonkurranse.get('KONKURRANSENAVN');
-			}
-		});
-		
-		// GUI-HOOK FOR Å SENDE INN SVAR
-		$(document).on('click', '.trigger', function( response ) {
-			// ANBEFALT: $( this ).html('Lagrer...');
-			UKMKonkurranse.svar('KONKURRANSENAVN', $(this).attr('data-val'));
-		});
-		#}
-	</script>
-{% endblock %}
-
 {% block content %}
 	<div class="container">
 		<div class="row">
