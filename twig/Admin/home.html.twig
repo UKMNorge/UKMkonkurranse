@@ -1,4 +1,31 @@
+<div class="card float-right pull-right" style="margin: 1em;">
+	Vis konkurranse i appen?
+
+	<form action="?page={{ GET('page') }}&action=app" method="post" class="form-inline" style="margin-bottom: 0px;">
+		<div class="form-group">
+			<select class="form-control" name="app_active" id="new_type">
+				<option value="ingen" {{ app_active == '0' ? 'selected'  }}>Nei - ikke vis konkurranse nå</option>
+				{% for konkurranse in sporsmal %}
+					<option value="{{ konkurranse.getId() }}" {{ app_active == konkurranse.getId() ? 'selected'  }}>{{ konkurranse.getName() }}
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="form-group">
+			<button type="submit" class="btn btn-success form-control">Lagre aktiv</button>
+		</div>
+		<br />
+		<small>
+			{% if app_active != '0' %}
+				<a href="?page={{ GET('page') }}&action=app&reset=true">Deaktiver aktiv konkurranse</a>
+			{% endif %}
+		</small>
+	</form>
+</div>
+
+
 <h1>Konkurranse-oversikt</h1>
+
 
 <table class="table table-striped">
 	{% for konkurranse in sporsmal %}

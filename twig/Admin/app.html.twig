@@ -1,0 +1,34 @@
+{% if reset is defined %}
+	<h1>Ingen aktiv konkurranse</h1>
+	<p>
+		Du kan nå 
+		<a href="?page={{ GET('page') }}">gå tilbake til oversikten</a>
+	</p>
+{% else %}
+	<h1>Aktiv konkurranse er nå "{{ konkurranse.getName() }}"</h1>
+
+	<div class="alert alert-danger">
+		<b>IKKE forlat denne siden. </b>
+		<br />
+		Du må deaktivere konkurransen om kort tid.
+		<br />
+		Mens konkurransen er aktiv, vil den auto-åpnes til alle som åpner appen.
+		Dette blir fort slitsomt, og det er derfor viktig at du deaktiverer den så fort som mulig.	
+	</div>
+
+	<a href="?page={{ GET('page') }}&action=app&reset=true" class="btn btn-success" id="deactivate">Deaktiver aktiv konkurranse</a>
+
+	<p class="help text-muted" style="margin-top: 1em;">
+		Hvis du lar denne siden stå åpen, vil den deaktivere konkurransen etter 5 minutter
+	</p>
+
+	<script>
+		setTimeout(
+			() => {
+				console.log('Deactivate');
+				window.location.href = $('#deactivate').attr('href');
+			},
+			300000
+		);
+	</script>
+{% endif %}
