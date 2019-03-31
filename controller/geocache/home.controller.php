@@ -1,6 +1,6 @@
 <?php
 	
-require_once(UKMKONKURRANSE_PATH. 'models/geocache.collection.php');
+require_once('UKM/Konkurranse/geocache.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	$sporsmal = GeocacheColl::create( $_POST['new_geocache'], $_POST['new_geocache_type'] );

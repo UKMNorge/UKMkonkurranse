@@ -1,6 +1,6 @@
 <?php
 	
-require_once(UKMKONKURRANSE_PATH . 'models/sporsmal.collection.php');
+require_once('UKM/Konkurranse/sporsmal.collection.php');
 
 if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 	

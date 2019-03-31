@@ -1,8 +1,8 @@
 <?php
 
 require_once('UKM/sql.class.php');
-require_once(UKMKONKURRANSE_PATH. 'models/sporsmal.collection.php');
-require_once(UKMKONKURRANSE_PATH. 'models/answer.collection.php');
+require_once('UKM/Konkurranse/sporsmal.collection.php');
+require_once('UKM/Konkurranse/answer.collection.php');
 
 $response['action'] = $_POST['konkurranse'];
 $response['sporsmal'] = $_POST['sporsmal'];

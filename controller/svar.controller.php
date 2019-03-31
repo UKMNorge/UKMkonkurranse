@@ -1,6 +1,6 @@
 <?php
 	
-require_once(UKMKONKURRANSE_PATH. 'models/answer.collection.php');
+require_once('UKM/Konkurranse/answer.collection.php');
 
 $sporsmal = new sporsmal( $_GET['konkurranse'] );
 

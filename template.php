@@ -9,13 +9,13 @@ global $post;
 $konkurranse = get_post_meta( $post->ID, 'UKMkonkurranse', true );
 
 if( isset( $_GET['sporsmal'] ) ) {
-	require_once(UKMKONKURRANSE_PATH. 'models/sporsmal.collection.php');
+	require_once('UKM/Konkurranse/sporsmal.collection.php');
 	$sporsmal = SporsmalColl::getById( $_GET['sporsmal'] );
 	$konkurranse = $sporsmal->getType();
 	$WP_TWIG_DATA['sporsmal'] = $sporsmal;
 	
 	if( isset( $_COOKIE['UKMMobil'] ) ) {
-		require_once(UKMKONKURRANSE_PATH. 'models/answer.collection.php');
+		require_once('UKM/Konkurranse/answer.collection.php');
 		$WP_TWIG_DATA['UKMMobil'] = $_COOKIE['UKMMobil'];	
 		$WP_TWIG_DATA['answer'] = AnswerColl::getByQuestionAndUser( $sporsmal->getId(), $_COOKIE['UKMMobil'] );
 	}
