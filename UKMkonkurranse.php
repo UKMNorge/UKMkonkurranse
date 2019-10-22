@@ -15,7 +15,7 @@ define('UKMKONKURRANSE_URL', rtrim( plugin_dir_url( __FILE__), '/').'/');
 add_filter( 'template_include', 'UKMkonkurranseTemplateFilter' );
 
 if( get_option('site_type') == 'land' ) {
-	add_action('UKM_admin_menu', ['UKMkonkurranse','meny']);
+	add_action('admin_menu', ['UKMkonkurranse','meny']);
 }
 
 
@@ -95,8 +95,7 @@ class UKMkonkurranse extends UKMmodul {
 	 *
 	**/
 	public static function meny() {
-		UKM_add_menu_page(
-			'festivalen',
+		$page = add_menu_page(
 			'Konkurranse', 
 			'Konkurranse',
 			'administrator', 
@@ -105,9 +104,9 @@ class UKMkonkurranse extends UKMmodul {
 			'//ico.ukm.no/prize-menu.png',
 			20
 		);
-		UKM_add_scripts_and_styles(
-			['UKMkonkurranse','admin'],	# Page-hook
-			['UKMkonkurranse', 'scripts_and_styles']	# Script-funksjon
+		add_action(
+			'admin_print_styles-' . $page,
+			['UKMkonkurranse', 'scripts_and_styles']
 		);
 		
 		// Legg geocache som en submeny.
