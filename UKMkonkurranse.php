@@ -15,7 +15,7 @@ define('UKMKONKURRANSE_URL', rtrim( plugin_dir_url( __FILE__), '/').'/');
 add_filter( 'template_include', 'UKMkonkurranseTemplateFilter' );
 
 if( get_option('site_type') == 'land' ) {
-	add_action('admin_menu', ['UKMkonkurranse','meny']);
+	#add_action('admin_menu', ['UKMkonkurranse','meny']);
 }
 
 
