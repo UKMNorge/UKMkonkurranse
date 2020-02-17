@@ -15,7 +15,7 @@ define('UKMKONKURRANSE_URL', rtrim( plugin_dir_url( __FILE__), '/').'/');
 add_filter( 'template_include', 'UKMkonkurranseTemplateFilter' );
 
 if( get_option('site_type') == 'land' ) {
-	#add_action('admin_menu', ['UKMkonkurranse','meny']);
+    #UKMkonkurranse::hook();
 }
 
 
@@ -35,9 +35,8 @@ function UKMkonkurranseTemplateFilter( $template ) {
 	return $template;
 }
 
-require_once(UKMKONKURRANSE_PATH . '../UKMvideresending/class/UKMModul.class.php');
-
-class UKMkonkurranse extends UKMmodul {
+class UKMkonkurranse extends UKMNorge\Wordpress\Modul
+{
 	public static function ajax() {
 		$response = [
 			'action' => $_POST['ajaxaction'],
@@ -55,7 +54,11 @@ class UKMkonkurranse extends UKMmodul {
 	public static function init( $pl_id=null ) {
 		self::setAction('home');
 		parent::init(null);
-	}
+    }
+    
+    public static function hook() {
+        add_action('admin_menu', [static::class,'meny']);
+    }
 	
 	/**
 	 * Generer admin-GUI
@@ -108,9 +111,11 @@ class UKMkonkurranse extends UKMmodul {
 			'admin_print_styles-' . $page,
 			['UKMkonkurranse', 'scripts_and_styles']
 		);
-		
+        
+        
+        
 		// Legg geocache som en submeny.
-		UKM_add_submenu_page(
+		$page = add_submenu_page(
 			'konkurranse',
 			'Geocache',
 			'Geocache',
@@ -118,8 +123,8 @@ class UKMkonkurranse extends UKMmodul {
 			'geocache',
 			['UKMkonkurranse', 'adminGeocache']
 		);
-		UKM_add_scripts_and_styles(
-			['UKMkonkurranse','adminGeocache'],	# Page-hook
+        add_action(
+            'admin_print_styles-'. $page,
 			['UKMkonkurranse', 'scripts_and_styles']	# Script-funksjon
 		);
 
