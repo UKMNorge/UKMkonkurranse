@@ -1,6 +1,8 @@
 <?php
 
-require_once('UKM/sql.class.php');
+use UKMNorge\Database\SQL\Insert;
+
+require_once('UKM/Autoloader.php');
 require_once('UKM/Konkurranse/sporsmal.collection.php');
 require_once('UKM/Konkurranse/answer.collection.php');
 
@@ -9,7 +11,7 @@ $response['sporsmal'] = $_POST['sporsmal'];
 
 switch( $_POST['konkurranse'] ) {
 	case 'svar':
-		$SQLins = new SQLins('konkurranse_svar');
+		$SQLins = new Insert('konkurranse_svar');
 		$SQLins->add('mobil', $_POST['mobil'] );
 		
 		// STANDARD-SPØRSMÅL (med alternativer)
